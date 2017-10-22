@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# From aneeshep; https://askubuntu.com/a/15856
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root"
+   exit 1
+fi
+
 # if [ -n "$STEAMCACHE_RESOLVE_NAME" ]
 # then
 # 	RESOLVED_IP="$(nslookup "$STEAMCACHE_RESOLVE_NAME" 2>/dev/null | grep 'Address' | awk '{ print $3 }')"
@@ -12,13 +18,21 @@
 # 	fi
 # fi
 
-# if [ -z "$STEAMCACHE_IP" ]
-# then
-# 	echo "No value in \$STEAMCACHE_IP!" >&2
-# 	exit 1
-# fi
+if [ -z "$STEAMCACHE_IP" ]
+then
+	echo "No value in \$STEAMCACHE_IP!" >&2
+	exit 2
+fi
 
-echo "Running bootstrap.sh..."
+echo "Preparing enviroment..."
+apt install -y bind9
+service bind9 stop
+
+# We'll be copying our own versions
+rm /etc/bind/named.conf /etc/named.conf.options
+
+cp ./bind/named.conf ./bind/named.conf.options ./bind.cache.conf /etc/bind/
+cp ./bind/cache /etc/bind/
 
 if [ "$USE_GENERIC_CACHE" = "true" ]; then
 	# We will use the generic cache IP for anything that is not defined.

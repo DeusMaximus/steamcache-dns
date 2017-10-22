@@ -1,26 +1,21 @@
 # Steam Cache Docker Container
 
+## Prefix
+
+This is a bastardized fork of [steamcache-dns](https://github.com/steamcache/steamcache-dns) to install directly in the local operating system rather than spinning up a docker container. If you are looking for the docker version, please go there.
+
 ## Introduction
 
-This docker container provides DNS entries for \*.cs.steampowered.com to be used in conjunction with a steamcache server. 
+This repository provides a bind9 installer to provide DNS entries for \*.cs.steampowered.com to be used in conjunction with a steamcache server. 
 
 The primary use case is gaming events, such as LAN parties, which need to be able to cope with hundreds or thousands of computers receiving an unannounced patch - without spending a fortune on internet connectivity. Other uses include smaller networks, such as Internet Cafes and home networks, where the new games are regularly installed on multiple computers; or multiple independent operating systems on the same computer.
 
 ## Usage
 
-Run the steamcache-dns container using the following to allow UDP port 53 (DNS) through the host machine:
+To run the installer, simply run ```./bootstrap.sh``` with the proper enviromental variables set.
 
-```
-docker run --name steamcache-dns -p 10.0.0.2:53:53/udp -e STEAMCACHE_IP=10.0.0.3 steamcache/steamcache-dns:latest
-```
-
-The image needs to know the IP of the steamcache server, provide this via the STEAMCACHE_IP variable.
+The installer needs to know the IP of the steamcache server, provide this via the STEAMCACHE_IP variable.
 If you're also using the generic cache server, you should use USE_GENERIC_CACHE=true and set LANCACHE_IP variable.
-
-Example running a steamcache + generic cache:
-```
-docker run --name steamcache-dns -p 10.0.0.2:53:53/udp -e STEAMCACHE_IP=10.0.0.3 -e USE_GENERIC_CACHE=true -e LANCACHE_IP=10.0.0.4 steamcache/steamcache-dns:latest
-```
 
 You can specify a different IP for each service hosted within the cache, with the following environment variables:
 ```
@@ -47,7 +42,6 @@ DISABLE_WINDOWS
 
 ```
 
-
 ## Quick Explaination
 
 For a steam cache to function on your network you need two services.
@@ -57,11 +51,6 @@ For a steam cache to function on your network you need two services.
 The depot cache service transparently proxies your requests for content to Steam, or serves the content to you if it already has it.
 
 The special DNS service handles DNS queries normally (recursively), except when they're about Steam and in that case it responds that the depot cache service should be used.
-
-## Running on Startup
-
-Follow the instructions in the Docker documentation to run the container at startup.
-[Documentation](https://docs.docker.com/articles/host_integration/)
 
 ## Further information
 
