@@ -136,4 +136,4 @@ if ! /usr/sbin/named-checkconf /etc/bind/named.conf ; then
 	exit 1
 fi
 
-service bind start
+service bind9 start
