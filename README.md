@@ -12,7 +12,12 @@ The primary use case is gaming events, such as LAN parties, which need to be abl
 
 ## Usage
 
-To run the installer, simply run ```./bootstrap.sh``` with the proper enviromental variables set.
+```
+git clone https://github.com/candunc/steamcache-dns.git
+cd steamcache-dns
+export STEAMCACHE_IP=10.0.0.0
+./bootstrap.sh
+```
 
 The installer needs to know the IP of the steamcache server, provide this via the STEAMCACHE_IP variable.
 If you're also using the generic cache server, you should use USE_GENERIC_CACHE=true and set LANCACHE_IP variable.

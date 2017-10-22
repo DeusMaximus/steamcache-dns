@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # From aneeshep; https://askubuntu.com/a/15856
 if [[ $EUID -ne 0 ]]; then
@@ -29,10 +29,12 @@ apt install -y bind9
 service bind9 stop
 
 # We'll be copying our own versions
-rm /etc/bind/named.conf /etc/named.conf.options
+rm /etc/bind/named.conf /etc/bind/named.conf.options
 
-cp ./bind/named.conf ./bind/named.conf.options ./bind.cache.conf /etc/bind/
-cp ./bind/cache /etc/bind/
+mkdir /var/log/named
+chown bind:bind /var/log/named
+cp ./bind/named.conf ./bind/named.conf.options ./bind/cache.conf /etc/bind/
+cp -r ./bind/cache /etc/bind/
 
 if [ "$USE_GENERIC_CACHE" = "true" ]; then
 	# We will use the generic cache IP for anything that is not defined.
@@ -134,12 +136,4 @@ if ! /usr/sbin/named-checkconf /etc/bind/named.conf ; then
 	exit 1
 fi
 
-echo "Running Bind9"
-
-/usr/sbin/named -u named -c /etc/bind/named.conf -f
-BEC=$?
-
-if ! [ $BEC = 0 ]; then
-	echo "Bind9 exited with ${BEC}"
-	exit ${BEC} #exit with the same exit code as bind9
-fi
+service bind start
