@@ -14,6 +14,7 @@ The primary use case is gaming events, such as LAN parties, which need to be abl
 
 ```
 git clone https://github.com/candunc/steamcache-dns.git
+git checkout baremetal
 cd steamcache-dns
 export STEAMCACHE_IP=10.0.0.0
 ./bootstrap.sh
