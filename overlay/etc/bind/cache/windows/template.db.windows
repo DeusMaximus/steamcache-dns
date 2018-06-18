@@ -7,6 +7,5 @@ $TTL	600
 			600 )
 @		IN	NS	ns1
 ns1		IN	A	{{ windowscache_ip }}
-steamcache	IN	A	{{ windowscache_ip }}
+
 @		IN	A	{{ windowscache_ip }}
-*		IN	cname	steamcache.windowsupdate.com
