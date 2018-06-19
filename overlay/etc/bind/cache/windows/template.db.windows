@@ -10,4 +10,4 @@ ns1		IN	A	{{ windowscache_ip }}
 steamcache	IN	A	{{ windowscache_ip }}
 
 @		IN	A	{{ windowscache_ip }}
-*		IN	cname	steamcache.download.windowsupdate.com
+*		IN	cname	steamcache.windowsupdate.com
